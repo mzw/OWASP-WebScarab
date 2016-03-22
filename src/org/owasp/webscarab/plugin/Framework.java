@@ -152,7 +152,7 @@ public class Framework {
     		whitelistPattern = Pattern.compile(pattern);
     		Preferences.setPreference("WebScarab.whitelistRegex", pattern);
     	}
-    	System.out.println("Using WebScarab.whitelistRegex pattern : "+pattern+". Will not save any data for requests not matching this pattern");
+    	_logger.info("Using WebScarab.whitelistRegex pattern : "+pattern+". Will not save any data for requests not matching this pattern");
     }
     public void setDropPattern(String pattern) throws PatternSyntaxException {
         if (pattern == null || "".equals(pattern)) {

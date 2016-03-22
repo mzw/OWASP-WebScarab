@@ -6,6 +6,12 @@
     <artifactId>WebScarab</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <description>The OWASP Web Application Security review tool</description>
+    <distributionManagement>
+        <repository>
+            <id>mzw.mvn.repo</id>
+            <url>scp://mzw.jp/var/mvn/repo</url>
+        </repository>
+    </distributionManagement>
     <build>
         <sourceDirectory>src</sourceDirectory>
         <resources>
@@ -74,6 +80,13 @@
                 </executions>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.9</version>
+            </extension>
+        </extensions>
     </build>
     <profiles>
         <profile>
