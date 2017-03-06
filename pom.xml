@@ -4,12 +4,12 @@
     <name>WebScarab</name>
     <groupId>org.owasp.webscarab</groupId>
     <artifactId>WebScarab</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <description>The OWASP Web Application Security review tool</description>
     <distributionManagement>
         <repository>
-            <id>mzw.mvn.repo</id>
-            <url>scp://mzw.jp/var/mvn/repo</url>
+            <id>jp.mzw.mvn-repo</id>
+            <url>scp://mvn-repo.mzw.jp/var/mvn/repo</url>
         </repository>
     </distributionManagement>
     <build>
@@ -63,21 +63,6 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.dstovall</groupId>
-                <artifactId>onejar-maven-plugin</artifactId>
-                <version>1.4.4</version>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <onejarVersion>0.97</onejarVersion>
-                        </configuration>
-                        <goals>
-                            <goal>one-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <extensions>
@@ -135,9 +120,9 @@
             <version>1.4.4</version>
         </dependency>
         <dependency>
-            <groupId>htmlparser</groupId>
+            <groupId>org.htmlparser</groupId>
             <artifactId>htmlparser</artifactId>
-            <version>1.5</version>
+            <version>1.6</version>
         </dependency>
         <dependency>
             <groupId>amf</groupId>
@@ -170,7 +155,7 @@
             <version>2.0b4</version>
         </dependency>
         <dependency>
-            <groupId>chardet</groupId>
+            <groupId>org.mozilla.intl</groupId>
             <artifactId>chardet</artifactId>
             <version>1.0</version>
         </dependency>
@@ -255,18 +240,12 @@
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
         </repository>
         <repository>
-            <id>jahia</id>
-            <url>http://maven.jahia.org/maven2/</url>
-        </repository>
-        <repository>
             <id>opennms</id>
             <url>http://repo.opennms.org/maven2/</url>
         </repository>
+        <repository>
+            <id>ebi</id>
+            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
+        </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>dstovall.org</id>
-            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
