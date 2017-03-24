@@ -120,9 +120,9 @@
             <version>1.4.4</version>
         </dependency>
         <dependency>
-            <groupId>org.htmlparser</groupId>
+            <groupId>htmlparser</groupId>
             <artifactId>htmlparser</artifactId>
-            <version>1.6</version>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>amf</groupId>
@@ -246,6 +246,10 @@
         <repository>
             <id>ebi</id>
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
+        </repository>
+        <repository>
+            <id>jp.mzw.mvn-repo</id>
+            <url>http://mvn-repo.mzw.jp</url>
         </repository>
     </repositories>
 </project>
