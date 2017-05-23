@@ -75,13 +75,20 @@ public class ReentrantReaderPreferenceReadWriteLock extends ReentrantWriterPrefe
         return activeWriter_ == null || activeWriter_ == Thread.currentThread();
     }
     
-    public void debug() {
+    public synchronized void debug() {
         Iterator<?> it = readers_.keySet().iterator();
         System.err.println("Readers:");
         while(it.hasNext()) {
             Object key = it.next();
             Object value = readers_.get(key);
             System.err.println(key + " : " + value);
+            if (key instanceof Thread) {
+                // NOTE: this is the current stack trace, not the one at the moment of acquiring
+                StackTraceElement[] stackTrace = ((Thread) key).getStackTrace();
+                Throwable throwable = new Throwable("Current stack trace for reader");
+                throwable.setStackTrace(stackTrace);;
+                throwable.printStackTrace();
+            }
         }
         System.err.println("Done");
         System.err.println("Writer thread:");
@@ -97,6 +104,8 @@ public class ReentrantReaderPreferenceReadWriteLock extends ReentrantWriterPrefe
     private class LoggingLock implements Sync {
         
         private Sync _sync;
+        private StackTraceElement[] lastHolder;
+        private StackTraceElement[] lastReleaser;
         
         public LoggingLock(Sync sync) {
             _sync = sync;
@@ -104,7 +113,7 @@ public class ReentrantReaderPreferenceReadWriteLock extends ReentrantWriterPrefe
         
         public void acquire() throws InterruptedException {
             // System.err.println(Thread.currentThread().getName() + " acquiring");
-            while (!_sync.attempt(5000)) {
+            while (!attempt(5000)) {
                 debug();
             }
             // System.err.println(Thread.currentThread().getName() + " acquired");
@@ -115,9 +124,24 @@ public class ReentrantReaderPreferenceReadWriteLock extends ReentrantWriterPrefe
             try {
                 boolean result = _sync.attempt(msecs);
                 if (result) {
+                    if (lastHolder != null) {
+                        throw new AssertionError("Lock was already acquired!");
+                    }
+                    lastHolder = Thread.currentThread().getStackTrace();
                     // System.err.println(Thread.currentThread().getName() + " successful");
                 } else {
                     System.err.println(Thread.currentThread().getName() + "sync attempt unsuccessful");
+                    if (lastReleaser != null) {
+                        Throwable throwable = new Throwable("Previous lock releaser");
+                        throwable.setStackTrace(lastReleaser);
+                        throwable.printStackTrace();
+                    }
+                    if (lastHolder != null) {
+                        Throwable throwable = new Throwable("Previous lock holder");
+                        throwable.setStackTrace(lastHolder);
+                        throwable.printStackTrace();
+                    }
+                    new Throwable("Current attempting stack").printStackTrace();
                 }
                 return result;
             } catch (InterruptedException ie) {
@@ -129,6 +153,11 @@ public class ReentrantReaderPreferenceReadWriteLock extends ReentrantWriterPrefe
         public void release() {
             // System.err.println(Thread.currentThread().getName() + " releasing");
             _sync.release();
+            if (lastHolder == null) {
+                throw new AssertionError("Lock was already released");
+            }
+            lastReleaser = lastHolder;
+            lastHolder = null;
             // System.err.println(Thread.currentThread().getName() + " released");
         }
         

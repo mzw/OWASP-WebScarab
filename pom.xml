@@ -4,7 +4,7 @@
     <name>WebScarab</name>
     <groupId>org.owasp.webscarab</groupId>
     <artifactId>WebScarab</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <description>The OWASP Web Application Security review tool</description>
     <distributionManagement>
         <repository>
