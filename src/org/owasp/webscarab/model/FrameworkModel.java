@@ -171,7 +171,7 @@ public class FrameworkModel {
         if (dbgId == null) {
             dbgId = dbgCtr.incrementAndGet();
         }
-        System.err.printf("\033[1m%s\t%4d: %s\033[m\n", _rwl.writeLock().toString(), dbgId, msg);
+        _logger.info(_rwl.writeLock().toString() + ", " + dbgId + ": " + msg);
         return dbgId;
     }
 
