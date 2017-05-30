@@ -47,11 +47,14 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** This class represents a request that can be sent to an HTTP server.
  * @author rdawes
  */
 public class Request extends Message {
+	private static final Logger LOG = Logger.getLogger(Request.class.getName());
     
     private String _method = "GET";
     private HttpUrl _url = null;
@@ -194,7 +197,8 @@ public class Request extends Message {
      */    
     public void write(OutputStream os, String crlf) throws IOException {
         if (_method == null || _url == null || _version == null) {
-            System.err.println("Uninitialised Request!");
+            //System.err.println("Uninitialised Request!");
+            LOG.log(Level.WARNING, "Uninitialised Request! (method, url, version)=({0}, {1}, {2})", new Object[]{ _method, _url, _version });
             return;
         }
         os = new BufferedOutputStream(os);
@@ -222,7 +226,8 @@ public class Request extends Message {
      */    
     public void writeDirect(OutputStream os, String crlf) throws IOException {
         if (_method == null || _url == null || _version == null) {
-            System.err.println("Uninitialised Request!");
+            //System.err.println("Uninitialised Request!");
+            LOG.log(Level.WARNING, "Uninitialised Request! (method, url, version)=({0}, {1}, {2})", new Object[]{ _method, _url, _version });
             return;
         }
         os = new BufferedOutputStream(os);
